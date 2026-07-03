@@ -32,17 +32,16 @@
 
 ## Screenshots
 
-### Upload Documents Tab
-![Upload tab – drag-and-drop PDF upload interface with session management and Top-K settings](screenshots/01_upload_tab.png)
-
-### Document Ready for Processing
-![Document uploaded – PDF selected and ready to be ingested into the knowledge base](screenshots/02_document_uploaded.png)
-
-### Chat – Follow-up Question 1
-![Chat follow-up 1 – asking about the pricing model, with grounding sources and confidence badge](screenshots/04_chat_follow_up_1.png)
-
-### Chat – Follow-up Question 2
-![Chat follow-up 2 – asking about tech stack, with answer and cited grounding sources](screenshots/05_chat_follow_up_2.png)
+<table>
+  <tr>
+    <td align="center"><b>Upload Documents Tab</b><br><img src="screenshots/01_upload_tab.png" alt="Upload tab" width="100%"></td>
+    <td align="center"><b>Document Ready for Processing</b><br><img src="screenshots/02_document_uploaded.png" alt="Document uploaded" width="100%"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Chat – Follow-up Question 1</b><br><img src="screenshots/04_chat_follow_up_1.png" alt="Chat follow-up 1" width="100%"></td>
+    <td align="center"><b>Chat – Follow-up Question 2</b><br><img src="screenshots/05_chat_follow_up_2.png" alt="Chat follow-up 2" width="100%"></td>
+  </tr>
+</table>
 
 ## Architecture
 
