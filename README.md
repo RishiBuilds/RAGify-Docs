@@ -11,6 +11,7 @@
 ## Table of Contents
 
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Quick Start](#quick-start)
@@ -28,6 +29,20 @@
 - 🗂️ **Isolated sessions** - each session gets its own Qdrant collection, so documents never bleed across users
 - ♻️ **Smart re-uploads** - re-uploading a file with the same name replaces its old chunks instead of duplicating them
 - 🛡️ **Resilient LLM parsing** - a 3-tier fallback (JSON mode -> reprompt -> graceful degradation) keeps structured output reliable even when the model misbehaves
+
+## Screenshots
+
+### Upload Documents Tab
+![Upload tab – drag-and-drop PDF upload interface with session management and Top-K settings](screenshots/01_upload_tab.png)
+
+### Document Ready for Processing
+![Document uploaded – PDF selected and ready to be ingested into the knowledge base](screenshots/02_document_uploaded.png)
+
+### Chat – Follow-up Question 1
+![Chat follow-up 1 – asking about the pricing model, with grounding sources and confidence badge](screenshots/04_chat_follow_up_1.png)
+
+### Chat – Follow-up Question 2
+![Chat follow-up 2 – asking about tech stack, with answer and cited grounding sources](screenshots/05_chat_follow_up_2.png)
 
 ## Architecture
 
