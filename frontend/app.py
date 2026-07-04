@@ -1,9 +1,16 @@
 from __future__ import annotations
 from collections import defaultdict
 import requests
+import os
 import streamlit as st
 
-API_BASE = "http://localhost:8000"
+API_BASE = os.getenv("BACKEND_URL")
+if not API_BASE:
+    try:
+        API_BASE = st.secrets.get("BACKEND_URL", "http://localhost:8000")
+    except Exception:
+        API_BASE = "http://localhost:8000"
+
 MAX_FILE_SIZE_MB = 50
 
 def _create_session() -> dict:
