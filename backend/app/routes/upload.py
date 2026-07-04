@@ -25,6 +25,7 @@ async def upload_documents(
     if not session_id or not session_id.strip():
         raise HTTPException(status_code=400, detail="session_id is required.")
 
+    contents: list[bytes] = []
     for file in files:
         filename = file.filename or "unknown.pdf"
 
@@ -46,17 +47,17 @@ async def upload_documents(
                 status_code=413,
                 detail=f"{filename} ({len(content) / (1024 * 1024):.1f}MB) exceeds the {settings.max_file_size_mb}MB limit and was skipped.",
             )
-        await file.seek(0)
+        contents.append(content)
 
     total_chunks = 0
     files_processed = 0
     errors: list[str] = []
 
-    for file in files:
+    for file, content in zip(files, contents):
         filename = file.filename or "unknown.pdf"
 
         try:
-            chunks = await ingest_pdf(file, session_id)
+            chunks = await ingest_pdf(content, filename, session_id)
             total_chunks += chunks
             files_processed += 1
             logger.info(

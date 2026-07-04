@@ -2,7 +2,6 @@ from __future__ import annotations
 import logging
 import tempfile
 from pathlib import Path
-from fastapi import UploadFile
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from qdrant_client import models as qdrant_models
@@ -12,10 +11,10 @@ from app.services.vectorstore import get_qdrant_client, get_vectorstore
 
 logger = logging.getLogger(__name__)
 
-def _save_temp_file(file: UploadFile) -> Path:
-    suffix = Path(file.filename or "upload.pdf").suffix
+def _save_temp_file(content: bytes, filename: str) -> Path:
+    suffix = Path(filename).suffix
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-    tmp.write(file.file.read())
+    tmp.write(content)
     tmp.close()
     return Path(tmp.name)
 
@@ -40,13 +39,13 @@ def _delete_existing_chunks(collection_name: str, filename: str) -> None:
         collection_name,
     )
 
-async def ingest_pdf(file: UploadFile, session_id: str) -> int:
-    original_filename = file.filename or "unknown.pdf"
+async def ingest_pdf(content: bytes, filename: str, session_id: str) -> int:
+    original_filename = filename or "unknown.pdf"
     collection_name = ensure_session(session_id)
     tmp_path: Path | None = None
 
     try:
-        tmp_path = _save_temp_file(file)
+        tmp_path = _save_temp_file(content, original_filename)
         logger.info(
             "Ingesting '%s' (session=%s, temp=%s)",
             original_filename,
