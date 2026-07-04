@@ -1,4 +1,18 @@
 from __future__ import annotations
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+try:
+    import torch
+    torch.set_num_threads(1)
+except ImportError:
+    pass
+
 import logging
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
@@ -20,6 +34,15 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     logger.info("Embedding model:  %s", settings.hf_embedding_model)
     logger.info("Groq model:       %s", settings.groq_model)
     logger.info("Frontend origin:  %s", settings.frontend_origin)
+
+    try:
+        logger.info("Pre-warming embedding model: %s", settings.hf_embedding_model)
+        from app.services.embedding import get_embedding_dimension
+        dim = get_embedding_dimension()
+        logger.info("Embedding model pre-warmed successfully. Dimension: %d", dim)
+    except Exception as exc:
+        logger.error("Failed to pre-warm embedding model: %s", exc)
+        
     yield
     logger.info("RAGify-Docs backend shutting down.")
 
